@@ -54,3 +54,6 @@ cmake_install.cmake
 *.bak
 *.backup
 *.orig
+
+# Doxygen 파일
+doc/
