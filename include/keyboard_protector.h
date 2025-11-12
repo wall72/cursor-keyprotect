@@ -4,6 +4,8 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <psapi.h>
+#include <shlwapi.h>
 
 /**
  * @brief 키 코드를 솔트와 키를 사용하여 암호화합니다.
@@ -45,5 +47,40 @@ void UnsetHook(void);
  * @brief 전역 키보드 후크 핸들
  */
 extern HHOOK g_keyboardHook;
+
+/**
+ * @brief 현재 포커스된 창의 프로세스 실행 파일 이름을 가져옵니다.
+ * @param processName 버퍼에 저장될 프로세스 이름 (최대 MAX_PATH)
+ * @param bufferSize 버퍼 크기
+ * @return BOOL 성공 시 TRUE, 실패 시 FALSE
+ */
+BOOL GetCurrentProcessName(char* processName, DWORD bufferSize);
+
+/**
+ * @brief 특정 프로세스 이름이 허용된 프로세스인지 확인합니다.
+ * @param processName 확인할 프로세스 이름
+ * @return BOOL 허용된 프로세스면 TRUE, 아니면 FALSE
+ */
+BOOL IsAllowedProcess(const char* processName);
+
+/**
+ * @brief 복호화된 키 코드를 SendInput을 사용하여 전달합니다.
+ * @param vkCode 전달할 가상 키 코드
+ * @param isKeyDown 키 다운 이벤트인지 여부 (TRUE: 키 다운, FALSE: 키 업)
+ * @return BOOL 성공 시 TRUE, 실패 시 FALSE
+ */
+BOOL SendDecryptedKey(DWORD vkCode, BOOL isKeyDown);
+
+/**
+ * @brief INI 파일에서 허용된 프로세스 목록을 로드합니다.
+ * @param iniFilePath INI 파일 경로 (NULL이면 기본 경로 사용)
+ * @return BOOL 성공 시 TRUE, 실패 시 FALSE
+ */
+BOOL LoadAllowedProcessesFromIni(const char* iniFilePath);
+
+/**
+ * @brief 로드된 허용 프로세스 목록을 해제합니다.
+ */
+void FreeAllowedProcesses(void);
 
 #endif // KEYBOARD_PROTECTOR_H

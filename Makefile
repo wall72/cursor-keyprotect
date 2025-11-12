@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -std=c99 -Iinclude -DWIN32_LEAN_AND_MEAN
 CFLAGS += -m32
 # Windows XP 호환성을 위한 최소 요구사항 정의
 CFLAGS += -D_WIN32_WINNT=0x0501
-LDFLAGS = -m32 -luser32 -ladvapi32
+LDFLAGS = -m32 -luser32 -ladvapi32 -lpsapi -lshlwapi
 
 # 디렉토리
 SRCDIR = src
